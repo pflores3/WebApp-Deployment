@@ -263,6 +263,7 @@ def about():
 # DON'T put your email and password here directly! The code will be visible when you upload to Github.
 # Use environment variables instead (Day 35)
 
+
 MAIL_ADDRESS = os.environ.get("EMAIL_KEY")
 MAIL_APP_PW = os.environ.get("PASSWORD_KEY")
 
@@ -276,12 +277,14 @@ def contact():
 
 
 def send_email(name, email, phone, message):
-    email_message = f"Subject:New Message\n\nName: {name}\nEmail: {email}\nPhone: {phone}\nMessage:{message}"
     with smtplib.SMTP("smtp.gmail.com") as connection:
         connection.starttls()
         connection.login(MAIL_ADDRESS, MAIL_APP_PW)
-        connection.sendmail(from_addr=email,to_addrs=MAIL_ADDRESS, msg=email_message)
-
+        connection.sendmail(
+            from_addr=MAIL_ADDRESS,
+            to_addrs=MAIL_ADDRESS,
+            msg=f"Subject:New Message\n\n Name: {name}\nEmail: {email}\nPhone Number: {phone}\nMessage: {message}"
+        )
 
 if __name__ == "__main__":
     app.run(debug=False, port=5001)
